@@ -10,7 +10,6 @@ RUN test -z "$(gofmt -l .)"
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /app/server .
 
-# --- Final Stage ---
 FROM alpine:latest
 
 WORKDIR /root/

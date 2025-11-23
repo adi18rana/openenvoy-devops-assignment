@@ -50,9 +50,6 @@ resource "aws_launch_template" "web_lt" {
   }
 }
 
-# ... Create ALB, target group, listener, ASG similarly as before
-
-
 ######################
 # NETWORKING RESOURCES #
 ######################
@@ -76,7 +73,6 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
-# Public subnets (for ALB)
 resource "aws_subnet" "public_1" {
   vpc_id            = aws_vpc.prod.id
   cidr_block        = "10.0.1.0/24"
@@ -99,7 +95,6 @@ resource "aws_subnet" "public_2" {
   }
 }
 
-# Private subnets (for ASG instances)
 resource "aws_subnet" "private_1" {
   vpc_id            = aws_vpc.prod.id
   cidr_block        = "10.0.11.0/24"
@@ -147,7 +142,6 @@ resource "aws_route_table_association" "public_2" {
 # SECURITY GROUPS #
 ##########################
 
-# SG for ALB - allow inbound HTTP from anywhere
 resource "aws_security_group" "alb_sg" {
   name        = "prod-alb-sg"
   description = "Security group for ALB"
@@ -173,7 +167,6 @@ resource "aws_security_group" "alb_sg" {
   }
 }
 
-# SG for web ASG instances - allow inbound only from ALB SG on app port 80
 resource "aws_security_group" "web_sg" {
   name        = "prod-web-sg"
   description = "Security group for web instances"
@@ -285,9 +278,9 @@ resource "aws_autoscaling_group" "web_asg" {
   }
 }
 
-################
+###########
 # OUTPUTS #
-################
+###########
 
 output "alb_dns_name" {
   description = "DNS name of the public ALB"
