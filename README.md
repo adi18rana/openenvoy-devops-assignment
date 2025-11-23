@@ -1,1 +1,0 @@
-# openenvoy-devops-assignment
